@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+All topics
+{% endblock %}
+
+{% block stylesheet %}
+{% endblock %}
+
+{% block profile %}
+
+{% endblock %}
+
+{% block content %}
+ <div class="container">
+       {% if messages %}
+                  <ul class="messages">
+                      {% for message in messages %}
+                        <li {% if message.tags %} class="{{message.tags}}" {% endif%}>{{message}}</li>
+                      {% endfor %}
+                  </ul>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <a href="{% url 'blog:create_topic' %}" class="pull-right"><button class="btn btn-primary">Add new topic</button></a>
+            {% endif %}
+        {% endif %}
+
+        <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Topic</th>
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+                 <th>Action</th>
+            {% endif %}
+        {% endif %}
+
+      </tr>
+    </thead>
+    <tbody>
+     {% for topic in topics %}
+      <tr>
+        <td><a href="{% url 'blog:topic' name=topic.name %}">{{topic.name}}</a> </td>
+
+           {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+                 <td><a href="#">Delete</a>||<a href="#">Edit</a></td>
+            {% endif %}
+        {% endif %}
+
+
+      </tr>
+     {% endfor %}
+    </tbody>
+  </table>
+
+    </div>
+
+{% endblock %}
+
+
+{% block script %}
+
+{% endblock %}
